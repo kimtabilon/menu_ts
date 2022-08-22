@@ -116,7 +116,6 @@ const App = () => {
 
   return (
     <div className="container">
-      {selectedMenu}
       <h3>Please select your most favorite menu?</h3>
       {renderMenu()}
       
