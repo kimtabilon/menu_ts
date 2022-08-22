@@ -53,7 +53,7 @@ const App = () => {
         // 'Nut allergy' is NOT compatible with 'Cashew chicken', 'Peanut sauce',
         102: [201, 301], 
         // 'Halal' is NOT compatible with 'Sweet and sour pork',
-        //103: [202], 
+        103: [202], 
         // 'Vegetable fried rice' is NOT compatible with 'Steamed rice' (you don't need more rice... carb overload),
         204: [304],
         // 'Pad thai' is NOT compatible with 'Steamed rice' (Pad thai comes with noodles),
