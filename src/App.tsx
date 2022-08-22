@@ -4,10 +4,21 @@ import "./App.css";
 const App = () => {
   // The selected menu
   const [selectedMenu, setSelectedMenu] = useState<number>();
+  const [secondMenu, setSecondMenu] = useState<number>();
 
   // This function will be triggered when a radio button is selected
   const radioHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedMenu(Number(event.target.value));
+    let _sel = Number(event.target.value);
+    if(_sel<300&&_sel>200) {
+      setSecondMenu(_sel);
+    } 
+
+    if(_sel<200&&_sel>100) {
+      setSelectedMenu(_sel);
+    }
+
+    renderMenu();
+    
   };
 
   const getMenu = () => {
@@ -42,7 +53,7 @@ const App = () => {
         // 'Nut allergy' is NOT compatible with 'Cashew chicken', 'Peanut sauce',
         102: [201, 301], 
         // 'Halal' is NOT compatible with 'Sweet and sour pork',
-        103: [202], 
+        //103: [202], 
         // 'Vegetable fried rice' is NOT compatible with 'Steamed rice' (you don't need more rice... carb overload),
         204: [304],
         // 'Pad thai' is NOT compatible with 'Steamed rice' (Pad thai comes with noodles),
@@ -51,7 +62,7 @@ const App = () => {
     };
   }
 
-  const renderMenu = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const renderMenu = () => {
     return (
       <div>
         {getMenu().menus.map((set, index) => {
@@ -59,14 +70,21 @@ const App = () => {
             <fieldset>
               { set.map((opt, i) => {
                 let _skip = false;
+                let _rules = getMenu().rules;
                 if(selectedMenu) {
-                  let _rules = getMenu().rules;
-                  if(selectedMenu in _rules) {
-                    // console.log(_rules[selectedMenu]); 
-                    let _index = Number(selectedMenu);
-                    let _rule = _rules[_index];
-                    console.log(_rule);
-                    console.log(_rule.includes(Number(opt.id)));
+                  if(_rules.hasOwnProperty(selectedMenu)) {
+                    /* @ts-ignore */
+                    let _rule = _rules[selectedMenu];
+                    if(_rule.includes(Number(opt.id))) {
+                      _skip=true;
+                    }
+                  }
+                }
+                
+                if(secondMenu) {
+                  if(secondMenu in _rules) { 
+                    /* @ts-ignore */
+                    let _rule = _rules[selectedMenu];
                     if(_rule.includes(Number(opt.id))) {
                       _skip=true;
                     }
@@ -78,7 +96,7 @@ const App = () => {
                     <p>
                       <input
                         type="radio"
-                        name="menu{index}"
+                        name={index.toString()}
                         value={opt.id}
                         id={opt.id} 
                         onChange={radioHandler}
@@ -91,18 +109,17 @@ const App = () => {
               }) }
             </fieldset>
           );
-          //return <li key={index}>{value}</li>
         })}
       </div>
     );
-    
-    //return _html;
   }
 
   return (
     <div className="container">
+      {selectedMenu}
       <h3>Please select your most favorite menu?</h3>
       {renderMenu()}
+      
     </div>
   );
 };
