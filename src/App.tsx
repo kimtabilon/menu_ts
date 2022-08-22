@@ -84,7 +84,7 @@ const App = () => {
                 if(secondMenu) {
                   if(secondMenu in _rules) { 
                     /* @ts-ignore */
-                    let _rule = _rules[selectedMenu];
+                    let _rule = _rules[secondMenu];
                     if(_rule.includes(Number(opt.id))) {
                       _skip=true;
                     }
